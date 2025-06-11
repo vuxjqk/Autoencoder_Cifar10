@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tái tạo CIFAR-10 với CNN</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/4.2.0/tf.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Tái tạo ảnh CIFAR-10 với Autoencoder</h1>
+            <p>Tải lên, chụp ảnh hoặc nhập URL để tái tạo hình ảnh với mô hình Autoencoder được huấn luyện trên CIFAR-10
+            </p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h2>📥 Chọn nguồn ảnh</h2>
+                <div class="input-methods">
+                    <div class="input-method" id="file-method">
+                        <h3>📁 Tải từ thiết bị</h3>
+                        <p>Chọn ảnh từ máy tính của bạn</p>
+                        <div class="file-input">
+                            <input type="file" id="file-input" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="input-method" id="camera-method">
+                        <h3>📷 Chụp ảnh</h3>
+                        <p>Sử dụng camera để chụp ảnh</p>
+                        <div class="camera-container">
+                            <video id="camera-video" autoplay playsinline></video>
+                            <div class="camera-controls">
+                                <button id="start-camera">Bật Camera</button>
+                                <button id="capture-photo" disabled>Chụp ảnh</button>
+                                <button id="stop-camera" disabled>Tắt Camera</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-method" id="url-method">
+                        <h3>🌐 Từ URL</h3>
+                        <p>Nhập đường link ảnh từ internet</p>
+                        <div id="url-input">
+                            <input type="url" id="url-input-field" placeholder="https://example.com/image.jpg">
+                            <button id="load-url">Tải ảnh</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <h2>🖼️ Xem trước</h2>
+                <div class="image-preview" id="image-preview">
+                    <div class="preview-placeholder">
+                        <p>Chọn một ảnh để xem trước</p>
+                    </div>
+                </div>
+                <button id="predict-btn" disabled>🔄 Tái tạo ảnh</button>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <h2>📊 Kết quả tái tạo</h2>
+
+            <div class="error" id="error-message"></div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Đang tái tạo ảnh...</p>
+            </div>
+
+            <div class="prediction-result" id="prediction-result">
+                <div class="comparison-info">
+                    <p><strong>📝 Thông tin:</strong></p>
+                    <p>• Ảnh gốc được resize về kích thước 32x32 pixels để phù hợp với mô hình</p>
+                    <p>• Autoencoder sẽ nén ảnh thành representation vector sau đó tái tạo lại</p>
+                    <p>• So sánh ảnh gốc và ảnh tái tạo để đánh giá chất lượng mô hình</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="hidden-canvas" style="display: none;"></canvas>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
